@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Tickets>
+	<Ticket>
+		<id>8970296636312411820</id>
+		<name>b</name>
+		<price>6543</price>
+		<coordinates>
+			<X>646.0</X>
+			<Y>64.0</Y>
+		</coordinates>
+		<creationDate>2025-02-24T23:07:42.000137435</creationDate>
+		<comment>63845</comment>
+	</Ticket>
+	<Ticket>
+		<id>14863484563256311</id>
+		<name>seljnj</name>
+		<price>145621</price>
+		<coordinates>
+			<X>54.0</X>
+			<Y>45.0</Y>
+		</coordinates>
+		<creationDate>2025-02-10T19:01:00.367928500</creationDate>
+	</Ticket>
+	<Ticket>
+		<id>1</id>
+		<name>f</name>
+		<price>1000000</price>
+		<coordinates>
+			<X>4.0</X>
+			<Y>4.0</Y>
+		</coordinates>
+		<creationDate>2025-05-26T00:33:49.536504200</creationDate>
+		<event>
+			<idEvent>300613917</idEvent>
+			<nameEvent>bf vxdc</nameEvent>
+			<date>2025-12-12T12:12</date>
+		</event>
+	</Ticket>
+</Tickets>
