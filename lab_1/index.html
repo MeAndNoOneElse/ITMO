@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1 - Area Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .form-section, .canvas-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        input[type="text"].error {
+            border-color: red;
+        }
+        
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5568d3;
+        }
+        
+        canvas {
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .results-section {
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        tr.hit {
+            background: rgba(0, 255, 0, 0.1);
+        }
+        
+        tr.miss {
+            background: rgba(255, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Лабораторная работа №1 - Проверка попадания точки в область</h1>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2>Параметры точки</h2>
+                <form id="pointForm">
+                    <div class="form-group">
+                        <label>Выберите X:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="-4" id="x-4">
+                                <label for="x-4">-4</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="-3" id="x-3">
+                                <label for="x-3">-3</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="-2" id="x-2">
+                                <label for="x-2">-2</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="-1" id="x-1">
+                                <label for="x-1">-1</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="0" id="x0">
+                                <label for="x0">0</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="1" id="x1">
+                                <label for="x1">1</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="2" id="x2">
+                                <label for="x2">2</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="3" id="x3">
+                                <label for="x3">3</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="x" value="4" id="x4">
+                                <label for="x4">4</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="y">Введите Y (от -3 до 5):</label>
+                        <input type="text" id="y" name="y" placeholder="Например: 2.5">
+                        <div class="error-message" id="yError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Выберите R:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="r" value="1" id="r1">
+                                <label for="r1">1</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="r" value="2" id="r2">
+                                <label for="r2">2</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="r" value="3" id="r3">
+                                <label for="r3">3</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="r" value="4" id="r4">
+                                <label for="r4">4</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="r" value="5" id="r5">
+                                <label for="r5">5</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">Проверить</button>
+                </form>
+            </div>
+            
+            <div class="canvas-section">
+                <h2>Визуализация области</h2>
+                <canvas id="canvas" width="400" height="400"></canvas>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <h2>Результаты проверки</h2>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Результат</th>
+                        <th>Время</th>
+                        <th>Время выполнения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
