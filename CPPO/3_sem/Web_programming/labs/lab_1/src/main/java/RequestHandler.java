@@ -1,103 +1,159 @@
-import java.io.*;
-import java.util.*;
+import com.fastcgi.FCGIInterface;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequestHandler {
-    private final InputStream input;
-    private final PrintStream output;
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String APPLICATION_JSON = "application/json";
 
-    public RequestHandler(InputStream input, PrintStream output) {
-        this.input = input;
-        this.output = output;
-    }
+    public static void main(String[] args) {
+        FCGIInterface fcgi = new FCGIInterface();
 
-    public void handle() throws IOException {
-        long startTime = System.nanoTime();
+        while (fcgi.FCGIaccept() >= 0) {
+            try {
+                // Read environment variables
+                String requestMethod = FCGIInterface.request.params.getProperty("REQUEST_METHOD");
+                String contentLengthStr = FCGIInterface.request.params.getProperty("CONTENT_LENGTH");
 
-        Map<String, String> params = parseParams(input);
-        String xStr = params.get("x");
-        String yStr = params.get("y");
-        String rStr = params.get("r");
-
-        String result;
-        if (isValid(xStr, yStr, rStr)) {
-            double x = Double.parseDouble(xStr);
-            double y = Double.parseDouble(yStr);
-            double r = Double.parseDouble(rStr);
-
-            boolean inside = checkHit(x, y, r);
-            result = inside ? "Попадание" : "Промах";
-        } else {
-            result = "Ошибка: некорректные данные";
-        }
-
-        long execTime = (System.nanoTime() - startTime) / 1_000_000;
-        String time = new Date().toString();
-
-        sendResponse(xStr, yStr, rStr, result, time, execTime);
-    }
-
-    private Map<String, String> parseParams(InputStream in) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String body = reader.readLine();
-        Map<String, String> map = new HashMap<>();
-
-        if (body != null) {
-            String[] pairs = body.split("&");
-            for (String pair : pairs) {
-                String[] kv = pair.split("=");
-                if (kv.length == 2) {
-                    map.put(kv[0], java.net.URLDecoder.decode(kv[1], "UTF-8"));
+                if (!"POST".equals(requestMethod)) {
+                    sendErrorResponse("Only POST method is allowed");
+                    continue;
                 }
+
+                // Parse POST data
+                Map<String, String> params = parseParams(contentLengthStr);
+
+                // Validate and process
+                try {
+                    double x = Double.parseDouble(params.get("x"));
+                    double y = Double.parseDouble(params.get("y"));
+                    double r = Double.parseDouble(params.get("r"));
+
+                    // Validate parameters
+                    if (!validateParams(x, y, r)) {
+                        sendErrorResponse("Invalid parameters");
+                        continue;
+                    }
+
+                    // Check if point is in area
+                    boolean result = checkArea(x, y, r);
+
+                    // Send response
+                    sendSuccessResponse(x, y, r, result);
+
+                } catch (NumberFormatException e) {
+                    sendErrorResponse("Invalid number format");
+                }
+
+            } catch (Exception e) {
+                sendErrorResponse("Internal server error: " + e.getMessage());
             }
         }
-        return map;
     }
 
-    private boolean isValid(String x, String y, String r) {
+    private static Map<String, String> parseParams(String contentLengthStr) throws IOException {
+        Map<String, String> params = new HashMap<>();
+
+        if (contentLengthStr == null || contentLengthStr.isEmpty()) {
+            return params;
+        }
+
         try {
-            double xd = Double.parseDouble(x);
-            double yd = Double.parseDouble(y);
-            double rd = Double.parseDouble(r);
+            int contentLength = Integer.parseInt(contentLengthStr);
+            if (contentLength > 0) {
+                byte[] buffer = new byte[contentLength];
+                int bytesRead = FCGIInterface.request.inStream.read(buffer, 0, contentLength);
 
-            if (xd < -4 || xd > 4) return false;
-            if (yd < -3 || yd > 5) return false;
-            if (rd <= 0) return false;
+                if (bytesRead > 0) {
+                    String data = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+                    String[] pairs = data.split("&");
 
-            return true;
-        } catch (Exception e) {
+                    for (String pair : pairs) {
+                        String[] keyValue = pair.split("=");
+                        if (keyValue.length == 2) {
+                            params.put(keyValue[0], keyValue[1]);
+                        }
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            // Invalid content length
+        }
+
+        return params;
+    }
+
+    private static boolean validateParams(double x, double y, double r) {
+        // X: must be one of the predefined values (typically -4, -3, -2, -1, 0, 1, 2, 3, 4)
+        // Y: must be in range [-3, 5] - inclusive boundaries
+        // R: must be positive (typically 1, 2, 3, 4, 5)
+
+        if (y < -3 || y > 5) {
             return false;
         }
+
+        if (r <= 0 || r > 5) {
+            return false;
+        }
+
+        // X validation (allowing reasonable range)
+        if (x < -5 || x > 5) {
+            return false;
+        }
+
+        return true;
     }
 
-    private boolean checkHit(double x, double y, double r) {
-        // 1. Прямоугольник (нижний левый)
-        if (x <= 0 && y <= 0 && x >= -r && y >= -r) {
-            return true;
+    private static boolean checkArea(double x, double y, double r) {
+        // Check if point (x, y) is within the defined area with radius r
+
+        // Rectangle in the second quadrant (x <= 0, y >= 0)
+        if (x <= 0 && y >= 0) {
+            return x >= -r && y <= r / 2;
         }
 
-        // 2. Треугольник (нижний правый)
-        if (x >= 0 && y <= 0 && y >= -r && x <= r && y >= -x) {
-            return true;
+        // Triangle in the fourth quadrant (x >= 0, y <= 0)
+        if (x >= 0 && y <= 0) {
+            return y >= -x - r;
         }
 
-        // 3. Четверть круга (верхний левый)
-        if (x <= 0 && y >= 0 && (x * x + y * y <= r * r)) {
-            return true;
+        // Quarter circle in the third quadrant (x <= 0, y <= 0)
+        if (x <= 0 && y <= 0) {
+            return x * x + y * y <= r * r;
         }
 
+        // First quadrant - no area
         return false;
     }
 
-    private void sendResponse(String x, String y, String r,
-                              String result, String time, long execTime) {
-        output.println("Content-type: application/json\n");
-        output.println("{");
-        output.println("  \"x\": \"" + x + "\",");
-        output.println("  \"y\": \"" + y + "\",");
-        output.println("  \"r\": \"" + r + "\",");
-        output.println("  \"result\": \"" + result + "\",");
-        output.println("  \"time\": \"" + time + "\",");
-        output.println("  \"execTimeMs\": " + execTime);
-        output.println("}");
+    private static void sendSuccessResponse(double x, double y, double r, boolean result) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+        json.append("\"success\":true,");
+        json.append("\"x\":").append(x).append(",");
+        json.append("\"y\":").append(y).append(",");
+        json.append("\"r\":").append(r).append(",");
+        json.append("\"result\":").append(result);
+        json.append("}");
+
+        sendResponse(json.toString());
+    }
+
+    private static void sendErrorResponse(String message) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+        json.append("\"success\":false,");
+        json.append("\"error\":\"").append(message).append("\"");
+        json.append("}");
+
+        sendResponse(json.toString());
+    }
+
+    private static void sendResponse(String jsonContent) {
+        System.out.println(CONTENT_TYPE + ": " + APPLICATION_JSON);
+        System.out.println();
+        System.out.print(jsonContent);
     }
 }
