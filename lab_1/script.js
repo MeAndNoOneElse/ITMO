@@ -47,9 +47,9 @@ function validateY(numValue) {
         return false;
     }
     
-    // Y must be in range (-3, 5) - exclusive boundaries
+    // Y must be in range [-3, 5] - inclusive boundaries
     if (numValue < -3 || numValue > 5) {
-        errorMsg.textContent = 'Y must be in range (-3, 5)';
+        errorMsg.textContent = 'Y must be in range [-3, 5]';
         yInput.classList.add('error');
         return false;
     }

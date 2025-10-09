@@ -87,7 +87,7 @@ public class RequestHandler {
     
     private static boolean validateParams(double x, double y, double r) {
         // X: must be one of the predefined values (typically -4, -3, -2, -1, 0, 1, 2, 3, 4)
-        // Y: must be in range (-3, 5) - exclusive boundaries
+        // Y: must be in range [-3, 5] - inclusive boundaries
         // R: must be positive (typically 1, 2, 3, 4, 5)
         
         if (y < -3 || y > 5) {
