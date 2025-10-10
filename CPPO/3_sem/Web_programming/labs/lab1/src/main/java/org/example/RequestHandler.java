@@ -1,9 +1,7 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
+package org.example;
 
 import com.fastcgi.FCGIInterface;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ public class RequestHandler {
     public static void main(String[] var0) {
         FCGIInterface var1 = new FCGIInterface();
 
-        while(var1.FCGIaccept() >= 0) {
+        while (var1.FCGIaccept() >= 0) {
             try {
                 String var2 = FCGIInterface.request.params.getProperty("REQUEST_METHOD");
                 String var3 = FCGIInterface.request.params.getProperty("CONTENT_LENGTH");
@@ -26,9 +24,9 @@ public class RequestHandler {
                     Map var4 = parseParams(var3);
 
                     try {
-                        double var5 = Double.parseDouble((String)var4.get("x"));
-                        double var7 = Double.parseDouble((String)var4.get("y"));
-                        double var9 = Double.parseDouble((String)var4.get("r"));
+                        double var5 = Double.parseDouble((String) var4.get("x"));
+                        double var7 = Double.parseDouble((String) var4.get("y"));
+                        double var9 = Double.parseDouble((String) var4.get("r"));
                         if (!validateParams(var5, var7, var9)) {
                             sendErrorResponse("Invalid parameters");
                         } else {
@@ -58,7 +56,7 @@ public class RequestHandler {
                         String var5 = new String(var3, 0, var4, StandardCharsets.UTF_8);
                         String[] var6 = var5.split("&");
 
-                        for(String var10 : var6) {
+                        for (String var10 : var6) {
                             String[] var11 = var10.split("=");
                             if (var11.length == 2) {
                                 var1.put(var11[0], var11[1]);
@@ -76,9 +74,9 @@ public class RequestHandler {
     }
 
     private static boolean validateParams(double var0, double var2, double var4) {
-        if (!(var2 < (double)-3.0F) && !(var2 > (double)5.0F)) {
-            if (!(var4 <= (double)0.0F) && !(var4 > (double)5.0F)) {
-                return !(var0 < (double)-5.0F) && !(var0 > (double)5.0F);
+        if (!(var2 < (double) -3.0F) && !(var2 > (double) 5.0F)) {
+            if (!(var4 <= (double) 0.0F) && !(var4 > (double) 5.0F)) {
+                return !(var0 < (double) -5.0F) && !(var0 > (double) 5.0F);
             } else {
                 return false;
             }
@@ -88,11 +86,11 @@ public class RequestHandler {
     }
 
     private static boolean checkArea(double var0, double var2, double var4) {
-        if (var0 <= (double)0.0F && var2 >= (double)0.0F) {
-            return var0 >= -var4 && var2 <= var4 / (double)2.0F;
-        } else if (var0 >= (double)0.0F && var2 <= (double)0.0F) {
+        if (var0 <= (double) 0.0F && var2 >= (double) 0.0F) {
+            return var0 >= -var4 && var2 <= var4 / (double) 2.0F;
+        } else if (var0 >= (double) 0.0F && var2 <= (double) 0.0F) {
             return var2 >= -var0 - var4;
-        } else if (var0 <= (double)0.0F && var2 <= (double)0.0F) {
+        } else if (var0 <= (double) 0.0F && var2 <= (double) 0.0F) {
             return var0 * var0 + var2 * var2 <= var4 * var4;
         } else {
             return false;

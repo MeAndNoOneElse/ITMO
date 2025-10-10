@@ -2,9 +2,9 @@
   <artifact type="jar" name="lab_1:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/lab_1_jar</output-path>
     <root id="archive" name="lab_1.jar">
-      <element id="module-output" name="lab_1" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/fastcgi-lib.jar" path-in-jar="/" />
-      <element id="library" level="module" name="Maven: com:fastcgi-lib:1.0" module-name="lab_1" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>
