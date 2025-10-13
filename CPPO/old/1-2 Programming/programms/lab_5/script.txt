@@ -1,3 +1,0 @@
-sort 1
-execute_script script2.txt
-sort 2

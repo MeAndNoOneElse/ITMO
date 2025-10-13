@@ -1,3 +1,0 @@
-sort 3
-sort 4
-execute_script script.txt
