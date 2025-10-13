@@ -10,3 +10,6 @@
 [submodule "CPPO/old/1-2 Programming/programms/lab_7"]
 	path = CPPO/old/1-2 Programming/programms/lab_7
 	url = ../lab_7
+[submodule "CPPO/3_sem/Programming_languages/practics/sea_battle"]
+	path = CPPO/3_sem/Programming_languages/practics/sea_battle
+	url = ../sea_battle
