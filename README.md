@@ -4,7 +4,13 @@
 
 В папке selection лежат всякие разные отборы, которые я писал
 # Как сделать ссылку на репозиторий?
-- из ITMO:
+- сначала добавляем папку и инициализируем её
+  ```bash
+  git init
+  git remote add origin https://github.com/MeAndNoOneElse/lab_5.git
+  git pull origin master
+  ```
+- затем из ITMO:
 ```bash
 git submodule add "../lab_7" "CPPO\old\1-2 Programming\programms\lab_7"
 ```
