@@ -8,11 +8,12 @@
   ```bash
   git init
   git remote add origin https://github.com/MeAndNoOneElse/lab_5.git
+  git push --set-upstream origin master
   git pull origin master
   ```
 - затем из ITMO:
 ```bash
-git submodule add "../lab_7" "CPPO\old\1-2 Programming\programms\lab_7"
+git submodule add "../lab_5" "CPPO\old\1-2 Programming\programms\lab_5"
 ```
   lab_7 это репозиторий, лежит рядом с ITMO (ну или где-то ещё, можно ссылку вставлять), а второй путь это то, где надо создать ссылку
 - Удалить, если она уже есть:
