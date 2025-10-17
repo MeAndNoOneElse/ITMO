@@ -1,5 +1,5 @@
 # Как запускать?
-1. Создать gradle: ``` .\gradlew jar```
+1. Собрать gradle: ``` .\gradlew jar```
 2. Запихать все файлы на гелиос
 3. Зайти на него(пробросить порт,~~хз как это работает~~): ``` ssh -p 2222 s465029@helios.cs.ifmo.ru -L 54545:localhost:54545```
 4. Потом так(~~тоже хз~~): ```httpd -f ~/httpd-root/httpd.conf -k restart```

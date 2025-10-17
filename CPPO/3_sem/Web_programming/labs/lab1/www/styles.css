@@ -8,7 +8,7 @@
     --radius-small: 12px;
     --radius-large: 24px;
     --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
-    --ios-shadow-large: 0 8px 32px rgba(0, 0, 0, 0.16);
+    --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.16);
     --ease: cubic-bezier(0.2, 0.8, 0.4, 1);
     --duration: 0.35s;
     --text-primary: #1D1D1F;
@@ -174,7 +174,6 @@ section {
     outline: none;
     border-color: var(--light-green);
     background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
     transform: translateY(-1px);
 }
 
@@ -308,7 +307,7 @@ section {
 .canvas-wrapper {
     border-radius: var(--radius-large);
     overflow: hidden;
-    box-shadow: var(--ios-shadow-large);
+    box-shadow: var(--shadow-large);
     transition: all var(--duration) var(--ease);
     background: transparent;
     display: inline-block;
@@ -621,7 +620,6 @@ section {
     border-color: var(--red);
     background: rgba(255, 59, 48, 0.1);
 }
-
 .loading {
     display: none;
     position: fixed;
@@ -637,7 +635,7 @@ section {
     background: white;
     padding: 32px;
     border-radius: var(--radius-large);
-    box-shadow: var(--ios-shadow-large);
+    box-shadow: var(--shadow-large);
 }
 
 .loading-spinner {
@@ -649,15 +647,12 @@ section {
     animation: spin 1s linear infinite;
     margin: 0 auto 16px;
 }
-
-
 .loading-text {
     color: var(--text-primary);
     font-size: 17px;
     font-weight: 600;
     margin: 0;
 }
-
 .truncated-value {
     cursor: help;
     position: relative;
