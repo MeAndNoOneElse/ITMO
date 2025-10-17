@@ -16,9 +16,9 @@
         </div>
         <div class="student-info">
             <div class="info-card">
-                <p><span class="info-label">ФИО:</span> Ануфриев Андрей Сергеевич</p>
-                <p><span class="info-label">Группа:</span> P3219</p>
-                <p><span class="info-label">Вариант:</span> 465029</p>
+                <p><span class="info-label">ФИО: </span> Ануфриев Андрей Сергеевич</p>
+                <p><span class="info-label">Группа: </span> P3219</p>
+                <p><span class="info-label">Вариант: </span> 465029</p>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
 
 <main class="main-container">
     <!-- Форма ввода данных -->
-    <section class="input-section ios-card">
+    <section class="input-section card">
         <h2 class="section-title">
             Введите координаты точки
         </h2>
@@ -156,7 +156,7 @@
     </section>
 
     <!-- Координатная плоскость -->
-    <section class="canvas-section ios-card">
+    <section class="canvas-section card">
         <h2 class="section-title">
             Координатная плоскость
         </h2>
@@ -166,17 +166,17 @@
             </div>
             <div class="canvas-info">
                 <p class="canvas-hint">
-                    Кликните на область для добавления точки
+                    Чтобы добавить точку надо тыкнуть
                 </p>
                 <p class="current-r-display">
-                    Текущий R: <span id="current-r" class="r-value">-</span>
+                    Текущий R = <span id="current-r" class="r-value">-</span>
                 </p>
             </div>
         </div>
     </section>
 
     <!-- Таблица результатов -->
-    <section class="results-section ios-card">
+    <section class="results-section card">
         <h2 class="section-title">
             Результаты проверки
         </h2>
@@ -188,7 +188,7 @@
                     <th>Y</th>
                     <th>R</th>
                     <th>Результат</th>
-                    <th>Время сервера</th>
+                    <th>Дата и время</th>
                     <th>Время выполнения</th>
                 </tr>
                 </thead>
@@ -198,7 +198,7 @@
             </table>
             <div id="empty-state" class="empty-state">
                 <p>Пока нет результатов</p>
-                <small>Добавьте точку для начала работы</small>
+                <small>Нужно отметить хотябы 1 точку</small>
             </div>
         </div>
         <button id="clear-results" class="clear-btn">

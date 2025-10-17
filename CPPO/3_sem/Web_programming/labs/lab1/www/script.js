@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeForm() {
     console.log('Инициализация формы...');
 
-    // X - radio кнопки
+    // X - radio
     const xRadios = document.querySelectorAll('input[name="x"]');
     console.log('Найдено X радио:', xRadios.length);
 
@@ -166,6 +166,10 @@ function validateY() {
         showError(errorElement, 'Y должен быть числом');
         return false;
     }
+    if (selectedY <= -3 || selectedY >= 5) {
+        showError(errorElement, 'Y должен быть в диапазоне от -3 до 5');
+        return false;
+    }
 
     console.log('validateY: selectedY =', selectedY);
     hideError(errorElement);
@@ -211,7 +215,7 @@ function handleFormSubmit() {
     console.log('Отправка формы:', { x: selectedX, y: selectedY, r: selectedR });
 
     if (!validateX() || !validateY() || !validateR()) {
-        showModal('Пожалуйста, исправьте ошибки в форме');
+        showModal('Ошибка в форме');
         return;
     }
 
@@ -622,31 +626,11 @@ window.confirmAction = function() {
     window.hideConfirmModal();
 };
 
-function addPointFromCanvas(canvasX, canvasY) {
+function addPointFromCanvas(mathX, mathY) {
     const r = getCurrentR();
-
     if (!r || r <= 0) {
         showModal('Выберите значение R перед добавлением точки');
         return;
     }
-
-    const CONFIG = {
-        size: 600,
-        center: 300,
-        scale: 50
-    };
-
-    const graphX = (canvasX - CONFIG.center) / CONFIG.scale;
-    const graphY = -(canvasY - CONFIG.center) / CONFIG.scale;
-
-    const x = Math.round(graphX);
-    const y = graphY;
-
-    const allowedXValues = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
-    if (!allowedXValues.includes(x)) {
-        showModal('Координата X должна быть целым числом от -4 до 4');
-        return;
-    }
-
-    sendDataToServer(x, y, r, true);
+    sendDataToServer(mathX, mathY, r, true);
 }
