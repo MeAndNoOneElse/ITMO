@@ -8,8 +8,8 @@
   ```bash
   git init
   git remote add origin https://github.com/MeAndNoOneElse/lab_5.git
-  git push --set-upstream origin master
-  git pull origin master
+  git pull --set-upstream origin master
+  git push origin master
   ```
 - затем из ITMO:
 ```bash
