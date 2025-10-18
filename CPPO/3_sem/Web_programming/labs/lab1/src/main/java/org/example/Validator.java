@@ -6,25 +6,25 @@ public class Validator implements PointValidator {
   @Override
   public void validate(BigDecimal x, BigDecimal y, BigDecimal r) {
     if (x == null || y == null || r == null) {
-      throw new IllegalArgumentException("X, Y, R не могут быть null");
+      throw new IllegalArgumentException("X, Y, R can`t null");
     }
 
 
 
     if (x.compareTo(Config.X_MIN) < 0 || x.compareTo(Config.X_MAX) > 0) {
-      throw new IllegalArgumentException("X должен быть в диапазоне [-4; 4]");
+      throw new IllegalArgumentException("X must be in the range of [-4; 4]");
     }
 
     if (y.compareTo(Config.Y_MIN) <= 0) {
-      throw new IllegalArgumentException("Y должен быть в интервале (-3; 5)");
+      throw new IllegalArgumentException("Y must be in the range of (-3; 5)");
     }
 
     if (y.compareTo(Config.Y_MAX) >= 0) {
-      throw new IllegalArgumentException("Y должен быть в интервале (-3; 5)");
+      throw new IllegalArgumentException("Y must be in the range of (-3; 5)");
     }
 
     if (r.compareTo(Config.R_MIN) < 0 || r.compareTo(Config.R_MAX) > 0) {
-      throw new IllegalArgumentException("R должен быть в диапазоне [1; 3]");
+      throw new IllegalArgumentException("R must be in the range of [1; 3]");
     }
   }
 

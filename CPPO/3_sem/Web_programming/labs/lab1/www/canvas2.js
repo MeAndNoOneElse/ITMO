@@ -7,7 +7,6 @@ const CONFIG = {
     radius: { border: 20, inner: 15 }
 };
 let points = [];
-let hitCounts = { q1: 0, q2: 0, q3: 0, q4: 0 }; // Счетчики попаданий по квадрантам
 
 document.addEventListener('DOMContentLoaded', () => setTimeout(initializeCanvas, 200));
 
@@ -33,7 +32,6 @@ function drawCoordinatePlane() {
 
     drawScale();
     drawAllPoints();
-    drawHitCounters();
 }
 
 function drawFrame() {
@@ -112,6 +110,7 @@ function drawAreas(r) {
     ctx.fillRect(CONFIG.center, CONFIG.center , halfR, rPx);
 
     ctx.restore();
+
 }
 
 function drawScale() {
@@ -174,78 +173,6 @@ function drawScale() {
     ctx.restore();
 }
 
-function drawHitCounters() {
-    ctx.save();
-
-    const boxSize = 40;
-    const boxPadding = 10;
-    const fontSize = 14;
-    // Уменьшаем отступы от краев и приближаем к центру
-    const positions = [
-        { x: CONFIG.center - boxSize - 100, y: CONFIG.center - boxSize - 100, quadrant: 'q2' }, // Левый верхний (2 квадрант)
-        { x: CONFIG.center + 100, y: CONFIG.center - boxSize - 100, quadrant: 'q1' }, // Правый верхний (1 квадрант)
-        { x: CONFIG.center - boxSize - 100, y: CONFIG.center + 100, quadrant: 'q3' }, // Левый нижний (3 квадрант)
-        { x: CONFIG.center + 100, y: CONFIG.center + 100, quadrant: 'q4' } // Правый нижний (4 квадрант)
-    ];
-
-    positions.forEach(pos => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.fillRect(pos.x, pos.y, boxSize, boxSize);
-
-        ctx.fillStyle = 'rgba(170,255,0,0.7)';
-        ctx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(
-            hitCounts[pos.quadrant].toString(),
-            pos.x + boxSize / 2,
-            pos.y + boxSize / 2
-        );
-
-        ctx.fillStyle = 'rgba(170,255,0,0.7)';
-        ctx.font = '18px -apple-system, BlinkMacSystemFont, sans-serif'; // Исправлено: добавлены кавычки
-        const quadrantLabel = getQuadrantLabel(pos.quadrant);
-        ctx.fillText(
-            quadrantLabel,
-            pos.x + boxSize / 2,
-            pos.y + boxSize + 15
-        );
-    });
-
-    ctx.restore();
-}
-
-function getQuadrantLabel(quadrant) {
-    const labels = {
-        'q1': 'I четверть',
-        'q2': 'II четверть',
-        'q3': 'III четверть',
-        'q4': 'IV четверть'
-    };
-    return labels[quadrant] || quadrant;
-}
-
-function updateHitCounters() {
-    hitCounts = { q1: 0, q2: 0, q3: 0, q4: 0 };
-
-    points.forEach(point => {
-        if (point.hit) {
-            const quadrant = getPointQuadrant(point.x, point.y);
-            if (quadrant && hitCounts[quadrant] !== undefined) {
-                hitCounts[quadrant]++;
-            }
-        }
-    });
-}
-
-function getPointQuadrant(x, y) {
-    if (x > 0 && y > 0) return 'q1';
-    if (x < 0 && y > 0) return 'q2';
-    if (x < 0 && y < 0) return 'q3';
-    if (x > 0 && y < 0) return 'q4';
-    return null; х
-}
-
 function drawAllPoints() {
     points.forEach(({ x, y, hit }) => {
         if (typeof x === 'number' && typeof y === 'number') drawPoint(x, y, hit);
@@ -306,30 +233,20 @@ function handleCanvasClick(event) {
 function addPointToCanvas(x, y, hit, r) {
     if (typeof x === 'number' && typeof y === 'number') {
         points.push({ x, y, hit, r });
-        updateHitCounters();
         setTimeout(drawCoordinatePlane, 10);
     }
 }
 
 function removePointFromCanvas(x, y) {
     points = points.filter(p => !(Math.abs(p.x - x) < 0.001 && Math.abs(p.y - y) < 0.001));
-    updateHitCounters();
     drawCoordinatePlane();
 }
 
 Object.assign(window, {
     drawCoordinatePlane,
     addPointToCanvas,
-    clearCanvas: () => {
-        points = [];
-        hitCounts = { q1: 0, q2: 0, q3: 0, q4: 0 };
-        drawCoordinatePlane();
-    },
-    clearAllPoints: () => {
-        points = [];
-        hitCounts = { q1: 0, q2: 0, q3: 0, q4: 0 };
-        drawCoordinatePlane();
-    },
+    clearCanvas: () => { points = []; drawCoordinatePlane(); },
+    clearAllPoints: () => { points = []; drawCoordinatePlane(); },
     removePointFromCanvas,
     getAllPoints: () => [...points],
     setScale: newScale => { if (newScale > 0) { CONFIG.scale = newScale; drawCoordinatePlane(); } },
