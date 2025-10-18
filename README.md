@@ -13,6 +13,7 @@
   ```
 - затем из ITMO:
 ```bash
+cd "C:\Users\Eternal Core\OneDrive - MSFT\github_file\ITMO"
 git submodule add "../lab_5" "CPPO\old\1-2 Programming\programms\lab_5"
 ```
   lab_7 это репозиторий, лежит рядом с ITMO (ну или где-то ещё, можно ссылку вставлять), а второй путь это то, где надо создать ссылку
