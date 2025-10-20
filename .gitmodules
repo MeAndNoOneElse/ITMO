@@ -1,19 +1,6 @@
-[submodule "CPPO/old/1-2 Programming/programms/lab_5"]
-	path = CPPO/old/1-2 Programming/programms/lab_5
-	url = ../lab_5
-[submodule "CPPO/old/1-2 Programming/programms/lab_3-4"]
-	path = CPPO/old/1-2 Programming/programms/lab_3-4
-	url = ../lab_3-4
-[submodule "CPPO/old/1-2 Programming/programms/lab_6"]
-	path = CPPO/old/1-2 Programming/programms/lab_6
-	url = ../lab_6
-[submodule "CPPO/old/1-2 Programming/programms/lab_7"]
-	path = CPPO/old/1-2 Programming/programms/lab_7
-	url = ../lab_7
 [submodule "CPPO/3_sem/Programming_languages/practics/sea_battle"]
 	path = CPPO/3_sem/Programming_languages/practics/sea_battle
 	url = ../sea_battle
-
 [submodule "CYUR/1_sem/Python/labs/lab_3"]
 	path = CYUR/1_sem/Python/labs/lab_3
 	url = ../Python_lab_3
