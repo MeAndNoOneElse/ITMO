@@ -19,3 +19,6 @@
 [submodule "CPPO/old/1-2 Programming/labs/lab_6"]
 	path = CPPO/old/1-2 Programming/labs/lab_6
 	url = ../Java_lab_6
+[submodule "CPPO/old/1-2 Programming/labs/lab_7"]
+	path = CPPO/old/1-2 Programming/labs/lab_7
+	url = ../Java_lab_7
