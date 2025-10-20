@@ -4,3 +4,6 @@
 [submodule "CYUR/1_sem/Python/labs/lab_3"]
 	path = CYUR/1_sem/Python/labs/lab_3
 	url = ../Python_lab_3
+[submodule "CPPO/old/1-2 Programming/labs/lab_1"]
+	path = CPPO/old/1-2 Programming/labs/lab_1
+	url = ../Java_lab_1
