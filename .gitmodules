@@ -13,6 +13,4 @@
 [submodule "CPPO/3_sem/Programming_languages/practics/sea_battle"]
 	path = CPPO/3_sem/Programming_languages/practics/sea_battle
 	url = ../sea_battle
-[submodule "CYUR/1_sem/Python/labs/lab_3"]
-	path = CYUR/1_sem/Python/labs/lab_3
-	url = ../Python_lab_3
+
