@@ -182,10 +182,10 @@ function drawHitCounters() {
     const fontSize = 14;
     // Уменьшаем отступы от краев и приближаем к центру
     const positions = [
-        { x: CONFIG.center - boxSize - 100, y: CONFIG.center - boxSize - 100, quadrant: 'q2' }, // Левый верхний (2 квадрант)
-        { x: CONFIG.center + 100, y: CONFIG.center - boxSize - 100, quadrant: 'q1' }, // Правый верхний (1 квадрант)
-        { x: CONFIG.center - boxSize - 100, y: CONFIG.center + 100, quadrant: 'q3' }, // Левый нижний (3 квадрант)
-        { x: CONFIG.center + 100, y: CONFIG.center + 100, quadrant: 'q4' } // Правый нижний (4 квадрант)
+        { x: CONFIG.center - boxSize-200 , y: CONFIG.center - boxSize - 200, quadrant: 'q2' }, // Левый верхний (2 квадрант)
+        { x: CONFIG.center + 200, y: CONFIG.center - boxSize - 200, quadrant: 'q1' }, // Правый верхний (1 квадрант)
+        { x: CONFIG.center - boxSize - 200, y: CONFIG.center + 200, quadrant: 'q3' }, // Левый нижний (3 квадрант)
+        { x: CONFIG.center + 200, y: CONFIG.center + 200, quadrant: 'q4' } // Правый нижний (4 квадрант)
     ];
 
     positions.forEach(pos => {

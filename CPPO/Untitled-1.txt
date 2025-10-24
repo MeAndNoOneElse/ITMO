@@ -1,0 +1,7 @@
+#include <stdin.h>
+int (int, int, int);
+
+int main() {
+    int result = sum(1,2,3)
+   // printf("Hello, world!\n");
+}
